@@ -1,0 +1,105 @@
+ <script defer src="/__/firebase/12.8.0/firebase-app-compat.js"></script>
+    <script defer src="/__/firebase/12.8.0/firebase-auth-compat.js"></script>
+    <script defer src="/__/firebase/12.8.0/firebase-database-compat.js"></script>
+    <script defer src="/__/firebase/12.8.0/firebase-firestore-compat.js"></script>
+    <script defer src="/__/firebase/12.8.0/firebase-functions-compat.js"></script>
+    <script defer src="/__/firebase/12.8.0/firebase-messaging-compat.js"></script>
+    <script defer src="/__/firebase/12.8.0/firebase-storage-compat.js"></script>
+    <script defer src="/__/firebase/12.8.0/firebase-analytics-compat.js"></script>
+    <script defer src="/__/firebase/12.8.0/firebase-remote-config-compat.js"></script>
+    <script defer src="/__/firebase/12.8.0/firebase-performance-compat.js"></script>
+    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+  <style>
+    #app { display: none; }
+  </style>
+<link rel="stylesheet" href="../css/style.css">
+<div class="cont-vehicle">
+  <div class="left">
+    <form class="form-box">
+      <h2>Register Vihicle</h2>
+      <div class="field">
+        <label for="name">Full Name vihicle owner</label>
+        <input type="text" id="name" placeholder="Enter your name">
+      </div>
+       <div class="field">
+        <label for="vehicle-type">Vihicle Type</label>
+       <select  name="vehicle-type" id="vehicle-type">
+         <option value="Car">Car</option>
+         <option value="Motorcycle">Motorcycle</option>
+         <option value="Bicycle">Bicycle</option>
+       </select>
+      </div>
+      <div class="field">
+        <label for="vehicle-name">Vihicle Name</label>
+        <input type="email" id="vehicle-name" placeholder="Enter your email">
+      </div>
+      <div class="field">
+        <label for="plate-number">Plate Number</label>
+        <input type="text" id="plate-number" placeholder="Enter your phone">
+      </div>
+      <button type="submit btn" class="btn-custom register-v-btn" id="register-btn">Register</button>
+    </form>
+  </div>
+  <div class="right">
+    <div class="container-result">
+    <table id="vehicleTable" border="1" cellspacing="0" cellpadding="6" class="styled-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Vehicle Type</th>
+          <th>Vehicle Name</th>
+          <th>Plate Number</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+</div>
+
+ <script>
+   document.addEventListener('DOMContentLoaded', () => {
+      // Get references
+      const appEl = document.getElementById('app');
+      const userEmailEl = document.getElementById('user-email');
+      const logoutBtn = document.getElementById('logout-btn');
+
+      // Firebase Auth (Compat)
+      const auth = firebase.auth();
+
+      // Guard the page: only show if logged in; otherwise redirect to login
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          // Logged in
+          if (userEmailEl) userEmailEl.textContent = user.email || '(no email)';
+          if (appEl) appEl.style.display = 'block';
+        } else {
+          // Not logged in → go to login page
+          window.location.replace('/login.html');
+        }
+      });
+
+      // Optional: Logout handler
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', async () => {
+          try {
+            await auth.signOut();
+            window.location.replace('/login.html');
+          } catch (err) {
+            console.error(err);
+            alert('Failed to log out. Please try again.');
+          }
+        });
+      }
+
+      
+    });
+
+    
+  </script>
+<script src="../js/function.js"></script>
+
